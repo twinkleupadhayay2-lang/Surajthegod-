@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>surajthegod | Dashboard</title>
+<style>
+:root {
+  --pink: #ff2f92;
+  --bg: #090911;
+  --panel: #151522;
+  --muted: #aaaabd;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: #fff;
+  font-family: Arial, sans-serif;
+}
+header {
+  padding: 22px 18px;
+  border-bottom: 1px solid #292936;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo { color: var(--pink); font-weight: 900; font-size: 21px; }
+.status { color: #73f7ba; font-size: 12px; }
+main { max-width: 560px; margin: auto; padding: 20px 15px; }
+.hero {
+  padding: 23px;
+  border: 1px solid #3a2442;
+  border-radius: 20px;
+  background: linear-gradient(140deg, #28102c, #151522 70%);
+}
+.tag { color: var(--pink); font-size: 12px; letter-spacing: 2px; }
+h1 { font-size: 28px; margin-bottom: 8px; }
+p { color: var(--muted); line-height: 1.5; }
+.card {
+  background: var(--panel);
+  border: 1px solid #292939;
+  border-radius: 16px;
+  padding: 18px;
+  margin-top: 16px;
+}
+h2 { font-size: 17px; margin-top: 0; }
+input, textarea {
+  width: 100%;
+  margin: 8px 0 12px;
+  padding: 14px;
+  color: white;
+  background: #0b0b14;
+  border: 1px solid #373746;
+  border-radius: 10px;
+  font-size: 14px;
+}
+button {
+  width: 100%;
+  padding: 14px;
+  background: var(--pink);
+  color: white;
+  border: 0;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.secondary { background: #292939; margin-top: 9px; }
+.hidden { display: none; }
+.label { font-size: 12px; color: var(--muted); }
+.notice { font-size: 12px; color: #b8b8ca; }
+footer { text-align: center; padding: 25px; color: #77778b; font-size: 12px; }
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">SURAJTHEGOD</div>
+  <div class="status">● DEMO MODE</div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="tag">WELCOME TO YOUR PANEL</div>
+    <h1>Control Center</h1>
+    <p>A clean dashboard for learning about VPN profiles and connection settings.</p>
+  </section>
+
+  <section class="card" id="login">
+    <h2>🔐 Access Panel</h2>
+    <p>Enter the demo key to preview your dashboard.</p>
+    <label class="label" for="accessKey">DEMO ACCESS KEY</label>
+    <input id="accessKey" placeholder="Enter demo key" autocomplete="off">
+    <button onclick="unlockPanel()">Unlock Dashboard</button>
+    <p id="message" role="status"></p>
+    <p class="notice">Demo key: DEMO-2026</p>
+  </section>
+
+  <div id="dashboard" class="hidden">
+    <section class="card">
+      <h2>📊 Dashboard</h2>
+      <p>Panel status: Demo active</p>
+      <p>Website: surajthegod</p>
+      <button onclick="showSection('vpn')">Open VPN Config Page</button>
+      <button class="secondary" onclick="showSection('about')">About This Panel</button>
+    </section>
+
+    <section class="card hidden" id="vpn">
+      <h2>🌐 HAPP VPN Learning Page</h2>
+      <p>Use this page to organize a VPN profile you are authorized to use.</p>
+      <label class="label" for="profileName">PROFILE NAME</label>
+      <input id="profileName" placeholder="My test profile">
+      <label class="label" for="config">YOUR OWN CONFIGURATION</label>
+      <textarea id="config" rows="5" placeholder="Paste your authorized configuration here"></textarea>
+      <button onclick="saveProfile()">Save Preview Locally</button>
+      <p id="saveMessage" role="status"></p>
+      <p class="notice">This demo does not connect to a VPN or upload your config.</p>
+      <button class="secondary" onclick="showSection('home')">Back to Dashboard</button>
+    </section>
+
+    <section class="card hidden" id="about">
+      <h2>ℹ️ About</h2>
+      <p>This is a front-end learning demo. Access keys are not securely validated by a server yet.</p>
+      <button class="secondary" onclick="showSection('home')">Back to Dashboard</button>
+    </section>
+
+    <button class="secondary" onclick="lockPanel()" style="margin-top:16px">Lock Dashboard</button>
+  </div>
+</main>
+
+<footer>© 2026 surajthegod · Educational demo</footer>
+
+<script>
+function unlockPanel() {
+  const key = document.getElementById("accessKey").value.trim();
+  const message = document.getElementById("message");
+
+  if (key === "DEMO-2026") {
+    document.getElementById("login").classList.add("hidden");
+    document.getElementById("dashboard").classList.remove("hidden");
+    message.textContent = "";
+    showSection("home");
+  } else {
+    message.textContent = "Invalid demo key. Try DEMO-2026.";
+    message.style.color = "#ff6b9e";
+  }
+}
+
+function showSection(section) {
+  ["vpn", "about"].forEach(id =>
+    document.getElementById(id).classList.add("hidden")
+  );
+  if (section !== "home") {
+    document.getElementById(section).classList.remove("hidden");
+  }
+}
+
+function saveProfile() {
+  const name = document.getElementById("profileName").value.trim();
+  document.getElementById("saveMessage").textContent =
+    name ? "Preview ready for: " + name : "Please enter a profile name.";
+}
+function lockPanel() {
+  document.getElementById("dashboard").classList.add("hidden");
+  document.getElementById("login").classList.remove("hidden");
+  document.getElementById("accessKey").value = "";
+}
+</script>
+</body>
+</html>
